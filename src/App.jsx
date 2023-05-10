@@ -8,6 +8,7 @@ import Search from "./components/Search";
 
 function App() {
   const [foodsState, setfoodsState] = useState(foods);
+  const [searchInput, setSearchInput] = useState("");
 
   return (
     <div className="App">
@@ -16,24 +17,32 @@ function App() {
         <AddFoodForm setfoodsState={setfoodsState} />
       </div>
       <div>
-        <Search setfoodsState={setfoodsState} foodsState={foodsState} />
+        <Search searchInput={searchInput} setSearchInput={setSearchInput} />
       </div>
       <div className="foodList-container">
         <h1>Food List</h1>
-        {foodsState.map((food, index) => {
-          return (
-            <div className="foodList" key={index}>
-              {/* Iteration 1 | Render a Simple List */}
-              {/* <p>{food.name}</p>
+        <div className="foodList">
+          {foodsState
+            .filter((food) => {
+              if (food.name.toLowerCase().includes(searchInput.toLowerCase())) {
+                return food;
+              }
+            })
+            .map((food, index) => {
+              return (
+                <div key={index}>
+                  {/* Iteration 1 | Render a Simple List */}
+                  {/* <p>{food.name}</p>
             <img src={food.image} alt={food.name} style={{ width: "200px" }} /> */}
-              <FoodBox
-                food={food}
-                setfoodsState={setfoodsState}
-                foodsState={foodsState}
-              />
-            </div>
-          );
-        })}
+                  <FoodBox
+                    food={food}
+                    setfoodsState={setfoodsState}
+                    foodsState={foodsState}
+                  />
+                </div>
+              );
+            })}
+        </div>
         {/* Iteration 2 | Create the FoodBox component */}
         {/* <FoodBox
         food={{
