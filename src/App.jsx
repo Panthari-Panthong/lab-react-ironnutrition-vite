@@ -1,34 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+
+import foods from "./foods.json";
+import FoodBox from "./components/FoodBox";
+import AddFoodForm from "./components/AddFoodForm";
+import Search from "./components/Search";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [foodsState, setfoodsState] = useState(foods);
 
   return (
     <div className="App">
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {/* Iteration 4 | Add new food */}
+        <AddFoodForm setfoodsState={setfoodsState} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        <Search setfoodsState={setfoodsState} foodsState={foodsState} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="foodList-container">
+        <h1>Food List</h1>
+        {foodsState.map((food, index) => {
+          return (
+            <div className="foodList" key={index}>
+              {/* Iteration 1 | Render a Simple List */}
+              {/* <p>{food.name}</p>
+            <img src={food.image} alt={food.name} style={{ width: "200px" }} /> */}
+              <FoodBox
+                food={food}
+                setfoodsState={setfoodsState}
+                foodsState={foodsState}
+              />
+            </div>
+          );
+        })}
+        {/* Iteration 2 | Create the FoodBox component */}
+        {/* <FoodBox
+        food={{
+          name: "Orange",
+          calories: 85,
+          image: "https://i.imgur.com/abKGOcv.jpg",
+          servings: 1,
+        }}
+      /> */}
+      </div>
     </div>
-  )
+  );
 }
-
-export default App
+export default App;
